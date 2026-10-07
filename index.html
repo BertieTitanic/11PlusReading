@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>11+ Reading</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,650;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF3F8; --card:#FFFFFF; --ink:#172238; --muted:#56637A; --rule:#CFD9E5;
+  --accent:#2B55C9; --accent-ink:#FFFFFF; --hl:#FFE24D; --pick:#D6E2FF;
+  --good:#17784D; --good-bg:#DCF2E6; --bad:#B8322F; --bad-bg:#FBE2E1;
+  --ui:"Lexend", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --serif:"Literata", Georgia, "Times New Roman", serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#111722; --card:#1A2231; --ink:#E7ECF4; --muted:#9BA7BA; --rule:#2E3A4D;
+    --accent:#7FA0FF; --accent-ink:#0E1420; --hl:rgba(255,226,77,.35); --pick:rgba(127,160,255,.28);
+    --good:#5DD39A; --good-bg:#16352A; --bad:#FF8A85; --bad-bg:#3B1C1C;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111722; --card:#1A2231; --ink:#E7ECF4; --muted:#9BA7BA; --rule:#2E3A4D;
+  --accent:#7FA0FF; --accent-ink:#0E1420; --hl:rgba(255,226,77,.35); --pick:rgba(127,160,255,.28);
+  --good:#5DD39A; --good-bg:#16352A; --bad:#FF8A85; --bad-bg:#3B1C1C;
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:1.02rem;line-height:1.5;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+[hidden]{display:none !important}
+
+#app{min-height:100%;display:flex;flex-direction:column;max-width:1100px;margin:0 auto}
+#app.fixed{height:100%;min-height:0}
+.top{display:flex;align-items:center;gap:.6rem;padding:.6rem .9rem}
+.top h1{font-family:var(--serif);font-weight:650;font-size:1.25rem;margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.back{flex:none;border:1.5px solid var(--rule);background:var(--card);border-radius:12px;min-height:44px;padding:0 .8rem;cursor:pointer;font-size:.92rem}
+.fsbtn{flex:none;width:44px;height:44px;display:grid;place-items:center;background:var(--card);border:1.5px solid var(--rule);border-radius:12px;cursor:pointer}
+.fsbtn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.fsbtn .out{display:none} .fsbtn.on .in{display:none} .fsbtn.on .out{display:block}
+.back:hover,.fsbtn:hover{border-color:var(--accent)}
+
+/* ---------- home ---------- */
+#home{padding:0 .9rem 2rem;max-width:720px;width:100%;margin:0 auto}
+.homebar{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;justify-content:space-between;margin:.3rem 0 1rem}
+.seg{display:inline-flex;border:1.5px solid var(--rule);border-radius:12px;padding:3px;background:var(--card)}
+.seg button{border:0;background:none;padding:.5rem .9rem;border-radius:9px;cursor:pointer;color:var(--muted);min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:0 0 0 1.5px var(--accent) inset}
+.switch{display:flex;align-items:center;gap:.55rem;cursor:pointer;font-size:.92rem;color:var(--muted);background:none;border:0;padding:.3rem 0}
+.switch .track{width:2.6rem;height:1.5rem;border-radius:1rem;background:var(--rule);position:relative;flex:none;transition:background .2s}
+.switch .track::after{content:"";position:absolute;top:3px;left:3px;width:1.1rem;height:1.1rem;border-radius:50%;background:var(--card);transition:transform .2s}
+.switch[aria-checked="true"] .track{background:var(--accent)}
+.switch[aria-checked="true"] .track::after{transform:translateX(1.1rem)}
+.cards{display:grid;gap:.75rem}
+.pcard{display:block;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--rule);border-radius:16px;padding:1rem 1.1rem;cursor:pointer}
+.pcard:hover{border-color:var(--accent)}
+.pcard .t{font-family:var(--serif);font-weight:650;font-size:1.3rem;line-height:1.25;display:block}
+.pcard .s{color:var(--muted);font-size:.9rem;display:block;margin-top:.2rem}
+.pcard .b{display:inline-block;margin-top:.6rem;font-size:.88rem;padding:.15rem .6rem;border-radius:999px;background:var(--paper);color:var(--muted)}
+.pcard .b.done{background:var(--good-bg);color:var(--good)}
+.hint{color:var(--muted);font-size:.9rem;margin:1.2rem .2rem 0}
+
+/* ---------- reading ---------- */
+#read{flex:1;min-height:0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:0}
+.pane{overflow:auto;-webkit-overflow-scrolling:touch;padding:.2rem .9rem 1.2rem;overscroll-behavior:contain}
+.intro{font-size:.92rem;color:var(--muted);background:var(--card);border:1.5px solid var(--rule);border-radius:12px;padding:.6rem .8rem;margin:0 0 1rem}
+.text{font-family:var(--serif);font-size:1.08rem;line-height:1.75;max-width:40rem}
+.text p{margin:0 0 .9em}
+.text p.cut{color:var(--muted);text-align:center;letter-spacing:.1em}
+.src{font-size:.85rem;color:var(--muted);margin-top:.6rem;font-style:italic}
+.s{border-radius:4px;transition:background .15s;-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:.05em 0}
+.picking .s{cursor:pointer;background:linear-gradient(transparent 92%, var(--rule) 92%)}
+.picking .s:hover{background:var(--pick)}
+.s.picked{background:var(--pick) !important;box-shadow:0 0 0 2px var(--accent)}
+.s.ev{background:var(--hl) !important}
+.s.wrongpick{box-shadow:0 0 0 2px var(--bad)}
+
+.panel{background:var(--card);border-top:1.5px solid var(--rule);padding:.9rem .9rem 1rem;overflow:auto;max-height:62vh;box-shadow:0 -6px 18px rgba(23,34,56,.06)}
+.meta{display:flex;align-items:center;justify-content:space-between;gap:.5rem;font-size:.88rem;color:var(--muted);margin-bottom:.4rem}
+.pill{border:1.5px solid var(--rule);border-radius:999px;padding:.05rem .6rem;font-size:.82rem}
+.q{font-family:var(--serif);font-weight:650;font-size:1.15rem;line-height:1.4;margin:0 0 .75rem}
+.opts{display:grid;gap:.5rem}
+.opt{display:flex;gap:.7rem;align-items:flex-start;text-align:left;width:100%;background:var(--card);border:2px solid var(--rule);border-radius:12px;padding:.7rem .8rem;cursor:pointer;font-size:1rem;line-height:1.4}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .k{flex:none;width:1.6rem;height:1.6rem;border-radius:50%;border:1.5px solid var(--rule);display:grid;place-items:center;font-size:.8rem;color:var(--muted);margin-top:.05rem}
+.opt:disabled{cursor:default}
+.opt.correct{border-color:var(--good);background:var(--good-bg)}
+.opt.incorrect{border-color:var(--bad);background:var(--bad-bg)}
+.opt.dim{opacity:.5}
+.mine{font-size:.92rem;color:var(--muted);margin:0 0 .6rem}
+.mine b{color:var(--ink);font-weight:500}
+.instr{font-weight:600;margin:.2rem 0 .7rem}
+.verdict{font-weight:600;margin:.1rem 0 .3rem}
+.verdict.good{color:var(--good)} .verdict.bad{color:var(--bad)}
+.why{margin:0 0 .7rem;font-size:.97rem}
+.why .lbl{display:block;font-size:.88rem;color:var(--muted)}
+.why .lbl.strong{color:var(--ink);font-weight:600;font-size:.97rem}
+.verdicts{display:flex;flex-wrap:wrap;gap:.4rem;margin:.1rem 0 .7rem}
+.vp{font-size:.88rem;font-weight:600;border-radius:999px;padding:.2rem .7rem}
+.vp.y{background:var(--good-bg);color:var(--good)} .vp.n{background:var(--bad-bg);color:var(--bad)}
+.evnote{font-size:.88rem;color:var(--muted);margin:0}
+.panel .btnrow{position:sticky;bottom:-1rem;background:var(--card);margin:0 -.9rem -1rem;padding:.7rem .9rem 1rem}
+#startRow{margin-top:1.2rem}
+.res .btnrow{flex-direction:column-reverse}
+.res .btnrow button{width:100%}
+.btnrow{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem}
+.primary{flex:1;background:var(--accent);color:var(--accent-ink);border:0;border-radius:12px;padding:.8rem 1.2rem;font-weight:600;cursor:pointer;min-height:48px;font-size:1.02rem}
+.primary:disabled{opacity:.45;cursor:default}
+.secondary{background:var(--card);border:1.5px solid var(--rule);border-radius:12px;padding:.75rem 1.1rem;cursor:pointer;min-height:48px}
+
+/* ---------- results ---------- */
+#done{padding:0 .9rem 2rem;max-width:720px;width:100%;margin:0 auto}
+.res{background:var(--card);border:1.5px solid var(--rule);border-radius:16px;padding:1.3rem 1.1rem}
+.res .big{font-family:var(--serif);font-weight:650;font-size:2.4rem;margin:.1rem 0 .2rem}
+.res .sub{color:var(--muted);margin:0}
+.qlist{list-style:none;padding:0;margin:1.1rem 0 0;display:grid;gap:.45rem}
+.qlist li{display:flex;flex-direction:column;gap:.35rem;border-top:1px solid var(--rule);padding-top:.5rem;font-size:.95rem}
+.marks{flex:none;display:flex;gap:.25rem}
+.mk{font-size:.75rem;border-radius:6px;padding:.1rem .35rem;font-weight:600}
+.mk.y{background:var(--good-bg);color:var(--good)} .mk.n{background:var(--bad-bg);color:var(--bad)}
+
+@media (min-width:900px){
+  #read{grid-template-rows:none;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:1rem;padding:0 .9rem 1rem}
+  .pane{padding:.2rem .4rem 1rem 0}
+  .panel{max-height:none;border:1.5px solid var(--rule);border-radius:16px;box-shadow:none;align-self:start;max-height:100%}
+}
+@media (max-width:420px){
+  .top h1{font-size:1.05rem}
+  .text{font-size:1.02rem;line-height:1.7}
+  .q{font-size:1.05rem}
+  .opt{font-size:.95rem;padding:.6rem .7rem}
+}
+@media (prefers-reduced-motion: reduce){ .s,.switch .track,.switch .track::after{transition:none} }
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="top">
+    <button class="back" id="backBtn" type="button" hidden>‹ Back</button>
+    <h1 id="title">11+ Reading</h1>
+    <button class="fsbtn" id="fsBtn" type="button" aria-label="Full screen" title="Full screen" hidden>
+      <svg class="in" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+      <svg class="out" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>
+    </button>
+  </header>
+
+  <section id="home">
+    <div class="homebar">
+      <div class="seg" role="group" aria-label="Week" id="weekSeg"></div>
+      <button class="switch" id="evSwitch" type="button" role="switch" aria-checked="true"><span class="track"></span>Find the evidence</button>
+    </div>
+    <div class="cards" id="cards"></div>
+    <p class="hint" id="hint"></p>
+  </section>
+
+  <section id="read" hidden>
+    <div class="pane" id="pane">
+      <p class="intro" id="intro"></p>
+      <div class="text" id="text"></div>
+      <p class="src" id="src"></p>
+      <div class="btnrow" id="startRow"><button class="primary" id="startBtn" type="button"></button></div>
+    </div>
+    <div class="panel" id="panel" aria-live="polite"></div>
+  </section>
+
+  <section id="done" hidden></section>
+</div>
+
+<script>
+// ================= PASSAGES =================
+// Each passage belongs to a week. Text is a list of paragraphs; each paragraph is a list of sentences.
+// The word "cut" on its own marks where part of an extract has been left out (shown as […]).
+// Wrap a word in *stars* to show it in italics.
+//
+// Each question has four options. Mark the right one with  correct: true .
+// "why" is the feedback shown for that option.
+// "evidence" lists short phrases copied exactly from the text. Any sentence containing one of
+// these phrases counts as good evidence. Each phrase must appear in only one sentence.
+
+const PASSAGES = [
+
+// ---------------------------------------------------------------- Week 1
+{
+  week: 1,
+  title: `The Mole Learns to Row`,
+  source: `From The Wind in the Willows by Kenneth Grahame (1908)`,
+  intro: `The Mole has just met the Water Rat, and they have spent the day on the river. The Mole has never been in a boat before.`,
+  text: [
+    [`The afternoon sun was getting low as the Rat sculled gently homewards in a dreamy mood, murmuring poetry-things over to himself, and not paying much attention to Mole.`,
+     `But the Mole was very full of lunch, and self-satisfaction, and pride, and already quite at home in a boat (so he thought), and was getting a bit restless besides: and presently he said, "Ratty! Please, *I* want to row, now!"`],
+    [`The Rat shook his head with a smile.`,
+     `"Not yet, my young friend," he said; "wait till you've had a few lessons.`,
+     `It's not so easy as it looks."`],
+    [`The Mole was quiet for a minute or two.`,
+     `But he began to feel more and more jealous of Rat, sculling so strongly and so easily along, and his pride began to whisper that he could do it every bit as well.`,
+     `He jumped up and seized the sculls so suddenly that the Rat, who was gazing out over the water and saying more poetry-things to himself, was taken by surprise and fell backwards off his seat with his legs in the air for the second time, while the triumphant Mole took his place and grabbed the sculls with entire confidence.`],
+    [`The Mole flung his sculls back with a flourish, and made a great dig at the water.`,
+     `He missed the surface altogether, his legs flew up above his head, and he found himself lying on the top of the prostrate Rat.`,
+     `Greatly alarmed, he made a grab at the side of the boat, and the next moment—Sploosh!`,
+     `Over went the boat, and he found himself struggling in the river.`],
+    "cut",
+    [`Then a firm paw gripped him by the back of his neck.`,
+     `It was the Rat, and he was evidently laughing—the Mole could *feel* him laughing, right down his arm and through his paw, and so into his—the Mole's—neck.`],
+    "cut",
+    [`When all was ready for a start once more, the Mole, limp and dejected, took his seat in the stern of the boat; and as they set off, he said in a low voice, broken with emotion, "Ratty, my generous friend! I am very sorry indeed for my foolish and ungrateful conduct.`,
+     `My heart quite fails me when I think how I might have lost that beautiful luncheon-basket. […]`,
+     `Will you overlook it this once and forgive me, and let things go on as before?"`],
+    [`"That's all right, bless you!" responded the Rat cheerily.`,
+     `"What's a little wet to a Water Rat?`,
+     `I'm more in the water than out of it most days.`,
+     `Don't you think any more about it; and look here! I really think you had better come and stop with me for a little time."`],
+    [`The Mole was so touched by his kind manner of speaking that he could find no voice to answer him; and he had to brush away a tear or two with the back of his paw.`,
+     `But the Rat kindly looked in another direction, and presently the Mole's spirits revived again.`],
+  ],
+  questions: [
+    {
+      type: `Character`,
+      q: `The words "(so he thought)" in the second sentence suggest that…`,
+      options: [
+        { text: `the Mole is not as good at boating as he believes.`, correct: true, why: `The brackets are the writer hinting that the Mole is wrong, and the boat tipping over proves it.` },
+        { text: `the Mole has been in boats many times before.`, why: `Nothing in the text says this, and the way the Mole behaves suggests he is new to boats.` },
+        { text: `the Mole is very full of lunch.`, why: `The text does say this, but the brackets are not about lunch. They comment on how good the Mole thinks he is in a boat.` },
+        { text: `the Rat agrees the Mole is ready to row.`, why: `The opposite: the Rat says "Not yet".` },
+      ],
+      evidence: [`so he thought`, `He missed the surface altogether`, `Over went the boat`],
+    },
+    {
+      type: `Feelings`,
+      q: `How does the Rat feel when the Mole first asks to row?`,
+      options: [
+        { text: `Amused, but sure the Mole isn't ready yet.`, correct: true, why: `He smiles, so he isn't cross, but he still says "Not yet" and talks about lessons.` },
+        { text: `Angry that the Mole interrupted his poetry.`, why: `He was murmuring poetry, but he answers with a smile, not anger.` },
+        { text: `Worried the Mole will damage his boat.`, why: `That would be a sensible worry, but the text never says he feels it.` },
+        { text: `Dreamy and not paying attention.`, why: `The first sentence says this about him before the Mole asks. It isn't his reaction to the request.` },
+      ],
+      evidence: [`shook his head with a smile`, `Not yet, my young friend`, `not so easy as it looks`],
+    },
+    {
+      type: `Word meaning`,
+      q: `The Mole is described as "limp and dejected". What does "dejected" mean here?`,
+      options: [
+        { text: `Sad and low in spirits`, correct: true, why: `His "low voice, broken with emotion" in the same sentence shows he is unhappy.` },
+        { text: `Soaking wet`, why: `The Mole is wet, which makes this tempting, but the clues in the sentence are about his feelings.` },
+        { text: `Badly injured`, why: `Nothing in the text suggests he is hurt.` },
+        { text: `Tired out`, why: `Close to "limp", but the clues around "dejected" are about emotion, not tiredness.` },
+      ],
+      evidence: [`limp and dejected`],
+    },
+    {
+      type: `Motive`,
+      q: `Why does the Mole say his heart "fails" him when he thinks how he "might have lost that beautiful luncheon-basket"?`,
+      options: [
+        { text: `He feels worse about the trouble he caused the Rat than about nearly drowning himself.`, correct: true, why: `The basket is the Rat's, and the Mole calls his own behaviour "foolish and ungrateful". There is gentle humour here too: he nearly drowned, yet he frets about the picnic basket.` },
+        { text: `He is still hungry.`, why: `"Luncheon-basket" might make you think of food, but nothing shows he is hungry.` },
+        { text: `The basket has been lost in the river for ever.`, why: `Read carefully: he *might have* lost it. "When all was ready for a start once more" shows things were recovered.` },
+        { text: `He thinks the Rat will make him pay for it.`, why: `The Rat never mentions this, and his cheerful reply shows he isn't bothered.` },
+      ],
+      evidence: [`foolish and ungrateful`, `beautiful luncheon-basket`],
+    },
+    {
+      type: `Motive`,
+      q: `Why does the Rat look "in another direction" at the end?`,
+      options: [
+        { text: `So the Mole won't feel embarrassed about crying.`, correct: true, why: `The Mole is brushing away tears, and the word "kindly" shows the Rat looks away on purpose to be considerate.` },
+        { text: `He is watching where the boat is going.`, why: `That sounds sensible, but the text links his action to kindness, not steering.` },
+        { text: `He is bored of the Mole's apology.`, why: `The opposite: "kindly" and his cheerful reply show he cares.` },
+        { text: `He is looking for the luncheon-basket.`, why: `Everything was already "ready for a start once more".` },
+      ],
+      evidence: [`brush away a tear`, `kindly looked in another direction`],
+    },
+    {
+      type: `Character`,
+      q: `Which word best describes the Rat in this extract?`,
+      options: [
+        { text: `Forgiving`, correct: true, why: `He tells the Mole not to think any more about it and even invites him to stay.` },
+        { text: `Strict`, why: `He does say "Not yet", but with a smile, and he isn't strict afterwards.` },
+        { text: `Careless`, why: `He wasn't paying attention at the start, but that is one moment, not what he is like overall.` },
+        { text: `Proud`, why: `Pride belongs to the Mole in this extract, not the Rat.` },
+      ],
+      evidence: [`That's all right, bless you`, `What's a little wet`, `Don't you think any more about it`],
+    },
+  ],
+},
+
+{
+  week: 1,
+  title: `The Allotment`,
+  source: `An original story written for this game`,
+  intro: `Leo is helping his grandad on his allotment, a small plot of land where he grows vegetables.`,
+  text: [
+    [`Grandad worked at a brisk pace that morning, glancing up every few minutes at the ominous grey clouds piling up behind the church tower.`,
+     `Leo trailed behind him with the basket, sluggish and silent.`,
+     `He had wanted to stay at home and finish his game.`],
+    [`By eleven o'clock the basket was heavy with the reddest, plumpest tomatoes Leo had ever seen.`,
+     `"These are for the show on Saturday," he thought.`,
+     `"We'll win for certain."`],
+    [`At the end of the path they passed Mrs Okafor's plot.`,
+     `Last week it had been a jungle of green.`,
+     `Now the stalks lay flat and blackened, and a torn net flapped against her shed.`],
+    [`Grandad stopped.`,
+     `He looked at the ruined plants for a long moment, then at Leo, then at the basket.`],
+    [`"Grandad, no," Leo whispered.`],
+    [`But Grandad was already knocking on the shed door.`,
+     `When he came back, the basket was half empty, and he was humming.`],
+    [`Leo kicked a stone all the way to the car.`,
+     `Grandad said nothing.`,
+     `He simply waited until they reached the gate, then put a hand on Leo's shoulder.`],
+    [`"There'll be other shows," he said.`,
+     `"There's only one Mrs Okafor."`],
+    [`The first fat drops of rain began to fall.`],
+  ],
+  questions: [
+    {
+      type: `Motive`,
+      q: `Why does Grandad keep glancing up at the clouds?`,
+      options: [
+        { text: `He thinks it will rain soon and wants to finish first.`, correct: true, why: `The clouds are "ominous" and he works at a "brisk" pace. At the end, the rain arrives.` },
+        { text: `He is checking the time on the church clock.`, why: `The church tower is mentioned, but only to show where the clouds are. Nothing mentions a clock.` },
+        { text: `He is admiring the view.`, why: `"Ominous" clouds are threatening, not beautiful, and nothing suggests he is enjoying them.` },
+        { text: `He is worried about Mrs Okafor.`, why: `He hasn't seen her plot yet at this point in the story.` },
+      ],
+      evidence: [`ominous grey clouds`, `first fat drops of rain`],
+    },
+    {
+      type: `Feelings`,
+      q: `How does Leo feel at the start of the story?`,
+      options: [
+        { text: `Bored and unwilling to be there`, correct: true, why: `He is "sluggish and silent" and wanted to stay at home playing his game.` },
+        { text: `Excited about winning the show`, why: `He does think this later, but not at the start of the story.` },
+        { text: `Frightened of the storm`, why: `Grandad watches the clouds, but nothing shows that Leo is scared.` },
+        { text: `Ill and feverish`, why: `"Sluggish" means slow and lacking energy, but nothing suggests he is unwell.` },
+      ],
+      evidence: [`sluggish and silent`, `wanted to stay at home`],
+    },
+    {
+      type: `Inference`,
+      q: `What has most probably happened to Mrs Okafor's plot?`,
+      options: [
+        { text: `Her plants have been ruined, perhaps by bad weather or disease.`, correct: true, why: `The stalks are "flat and blackened" and her net is torn, when last week everything was green.` },
+        { text: `She has picked all her vegetables.`, why: `A harvested plot wouldn't have "blackened" stalks and a torn net.` },
+        { text: `She has dug it up to plant something new.`, why: `Nothing in the text suggests she has been digging.` },
+        { text: `Grandad has damaged it by accident.`, why: `Grandad only sees the plot as they walk past. Nothing suggests he did it.` },
+      ],
+      evidence: [`flat and blackened`, `jungle of green`],
+    },
+    {
+      type: `Motive`,
+      q: `Why does Leo whisper "Grandad, no"?`,
+      options: [
+        { text: `He has guessed Grandad will give away the tomatoes meant for the show.`, correct: true, why: `Grandad looks at the plants, then Leo, then the basket. Leo works out what he is about to do.` },
+        { text: `He thinks Grandad will be rude to Mrs Okafor.`, why: `Nothing suggests Grandad is going to be rude.` },
+        { text: `He doesn't want Grandad to get caught in the rain.`, why: `The rain hasn't started, and Leo's words come straight after Grandad looks at the basket.` },
+        { text: `He is scared of Mrs Okafor.`, why: `Nothing in the text says Leo is afraid of her.` },
+      ],
+      evidence: [`then at Leo, then at the basket`, `These are for the show`],
+    },
+    {
+      type: `Inference`,
+      q: `"There's only one Mrs Okafor." What does Grandad mean?`,
+      options: [
+        { text: `Helping a friend matters more than winning a prize.`, correct: true, why: `Shows come round again, but he values Mrs Okafor more than any prize, and he hums happily after helping her.` },
+        { text: `Mrs Okafor is the only other person with an allotment.`, why: `This takes his words too literally. He is talking about how much she matters, not how many people there are.` },
+        { text: `He doesn't want Leo to enter shows any more.`, why: `He says "There'll be other shows", so he expects to enter again.` },
+        { text: `Mrs Okafor will probably win the show instead.`, why: `Her plants are ruined, so this is very unlikely.` },
+      ],
+      evidence: [`There's only one Mrs Okafor`, `There'll be other shows`, `he was humming`],
+    },
+    {
+      type: `Character`,
+      q: `Which word best describes Grandad in this story?`,
+      options: [
+        { text: `Compassionate`, correct: true, why: `He sees Mrs Okafor's ruined plot and gives up his best tomatoes to help her.` },
+        { text: `Ruthless`, why: `The opposite: a ruthless person would keep the tomatoes to win.` },
+        { text: `Selfish`, why: `The opposite: he gives away what he had grown for himself.` },
+        { text: `Sluggish`, why: `"Sluggish" describes Leo, not Grandad, who works at a brisk pace.` },
+      ],
+      evidence: [`basket was half empty`, `looked at the ruined plants`],
+    },
+  ],
+},
+
+{
+  week: 1,
+  title: `The Wild Wood`,
+  source: `From The Wind in the Willows by Kenneth Grahame (1908)`,
+  intro: `The Rat is rowing the Mole along the river. The Mole is seeing the river bank for the first time and has lots of questions.`,
+  text: [
+    [`"What lies over *there*?" asked the Mole, waving a paw towards a background of woodland that darkly framed the water-meadows on one side of the river.`],
+    [`"That? O, that's just the Wild Wood," said the Rat shortly.`,
+     `"We don't go there very much, we river-bankers."`],
+    [`"Aren't they—aren't they very *nice* people in there?" said the Mole a trifle nervously.`],
+    [`"W-e-ll," replied the Rat, "let me see.`,
+     `The squirrels are all right.`,
+     `*And* the rabbits—some of 'em, but rabbits are a mixed lot.`,
+     `And then there's Badger, of course.`,
+     `He lives right in the heart of it; wouldn't live anywhere else, either, if you paid him to do it.`,
+     `Dear old Badger!`,
+     `Nobody interferes with *him*.`,
+     `They'd better not," he added significantly.`],
+    [`"Why, who *should* interfere with him?" asked the Mole.`],
+    [`"Well, of course—there—are others," explained the Rat in a hesitating sort of way.`,
+     `"Weasels—and stoats—and foxes—and so on.`,
+     `They're all right in a way—I'm very good friends with them—pass the time of day when we meet, and all that—but they break out sometimes, there's no denying it, and then—well, you can't really trust them, and that's the fact."`],
+    [`The Mole knew well that it is quite against animal-etiquette to dwell on possible trouble ahead, or even to allude to it; so he dropped the subject.`],
+    [`"And beyond the Wild Wood again?" he asked; "where it's all blue and dim, and one sees what may be hills or perhaps they mayn't, and something like the smoke of towns, or is it only cloud-drift?"`],
+    [`"Beyond the Wild Wood comes the Wide World," said the Rat.`,
+     `"And that's something that doesn't matter, either to you or me.`,
+     `I've never been there, and I'm never going, nor you either, if you've got any sense at all.`,
+     `Don't ever refer to it again, please.`,
+     `Now then! Here's our backwater at last, where we're going to lunch."`],
+  ],
+  questions: [
+    {
+      type: `Feelings`,
+      q: `How does the Rat feel about the Wild Wood?`,
+      options: [
+        { text: `Uneasy, and he would rather not talk about it.`, correct: true, why: `He answers "shortly", stalls with "W-e-ll", and speaks "in a hesitating sort of way".` },
+        { text: `Angry with the Mole for asking.`, why: `"Shortly" means briefly, not angrily, and he goes on to answer the Mole's questions.` },
+        { text: `He thinks it is a lovely place to visit.`, why: `He says river-bankers don't go there much, which suggests the opposite.` },
+        { text: `He knows nothing about it.`, why: `He knows exactly who lives there, from squirrels to weasels.` },
+      ],
+      evidence: [`said the Rat shortly`, `W-e-ll`, `hesitating sort of way`],
+    },
+    {
+      type: `Character`,
+      q: `"Nobody interferes with *him*. They'd better not," the Rat says of Badger. What does this suggest about Badger?`,
+      options: [
+        { text: `Other animals respect or fear him because he is strong.`, correct: true, why: `"They'd better not", said "significantly", hints that anyone who bothers Badger would be sorry.` },
+        { text: `He is lonely and nobody visits him.`, why: `"Interferes" means causing trouble, not visiting.` },
+        { text: `He causes trouble for everyone else.`, why: `The Rat calls him "Dear old Badger", so he is fond of him, not complaining about him.` },
+        { text: `He lives at the edge of the wood.`, why: `The text says he lives "right in the heart of it".` },
+      ],
+      evidence: [`They'd better not`],
+    },
+    {
+      type: `Inference`,
+      q: `The Rat says he is "very good friends" with the weasels and stoats. Why might the reader doubt this?`,
+      options: [
+        { text: `In the same breath he says you can't really trust them.`, correct: true, why: `People don't usually say their good friends can't be trusted, and his hesitant way of speaking adds to the doubt.` },
+        { text: `He says they are "all right in a way".`, why: `This seems to support the friendship, so it isn't a reason to doubt it.` },
+        { text: `The weasels live next door to him by the river.`, why: `Nothing in the text says where the weasels live apart from the Wild Wood.` },
+        { text: `The Mole tells him they aren't his friends.`, why: `The Mole drops the subject and says nothing of the kind.` },
+      ],
+      evidence: [`can't really trust them`, `hesitating sort of way`],
+    },
+    {
+      type: `Feelings`,
+      q: `What does the Rat's answer about the Wide World show?`,
+      options: [
+        { text: `He is content with his own life and doesn't want to think about anywhere beyond it.`, correct: true, why: `He has never been, never will go, and asks the Mole never to mention it again, then cheerfully changes the subject to lunch.` },
+        { text: `He has been there and hated it.`, why: `He says, "I've never been there".` },
+        { text: `He hopes to explore it one day.`, why: `The opposite: he says, "I'm never going".` },
+        { text: `He doesn't know what it is.`, why: `He names it confidently: "Beyond the Wild Wood comes the Wide World".` },
+      ],
+      evidence: [`I've never been there`, `Don't ever refer to it again`, `doesn't matter, either to you or me`],
+    },
+    {
+      type: `Prediction`,
+      q: `If the Mole said he wanted to explore the Wild Wood alone, how would the Rat most probably react?`,
+      options: [
+        { text: `He would try to talk him out of it.`, correct: true, why: `The Rat says river-bankers avoid the wood and its animals can't be trusted. Later in the book, he does exactly this.` },
+        { text: `He would happily offer to take him.`, why: `The Rat says river-bankers don't go there very much.` },
+        { text: `He wouldn't mind either way.`, why: `His warnings about the weasels show he does care.` },
+        { text: `He would suggest the Wide World instead.`, why: `He doesn't even want the Wide World mentioned.` },
+      ],
+      evidence: [`We don't go there very much`, `can't really trust them`],
+    },
+  ],
+},
+
+// ---------------------------------------------------------------- Week 2
+{
+  week: 2,
+  title: `Toad Sees a Motor-Car`,
+  source: `From The Wind in the Willows by Kenneth Grahame (1908)`,
+  intro: `Toad, the Rat and the Mole are travelling in Toad's brand-new caravan, pulled by a horse. A motor-car has just raced past, hooting "Poop-poop!", frightened their horse and tipped the caravan into a ditch.`,
+  text: [
+    [`Toad sat straight down in the middle of the dusty road, his legs stretched out before him, and stared fixedly in the direction of the disappearing motor-car.`,
+     `He breathed short, his face wore a placid, satisfied expression, and at intervals he faintly murmured "Poop-poop!"`],
+    [`The Mole was busy trying to quiet the horse, which he succeeded in doing after a time.`,
+     `Then he went to look at the cart, on its side in the ditch.`,
+     `It was indeed a sorry sight.`,
+     `Panels and windows smashed, axles hopelessly bent, one wheel off, sardine-tins scattered over the wide world, and the bird in the bird-cage sobbing pitifully and calling to be let out.`],
+    [`The Rat came to help him, but their united efforts were not sufficient to right the cart.`,
+     `"Hi! Toad!" they cried. "Come and bear a hand, can't you!"`],
+    [`The Toad never answered a word, or budged from his seat in the road; so they went to see what was the matter with him.`,
+     `They found him in a sort of a trance, a happy smile on his face, his eyes still fixed on the dusty wake of their destroyer.`,
+     `At intervals he was still heard to murmur "Poop-poop!"`],
+    [`The Rat shook him by the shoulder.`,
+     `"Are you coming to help us, Toad?" he demanded sternly.`],
+    [`"Glorious, stirring sight!" murmured Toad, never offering to move.`,
+     `"The poetry of motion! The *real* way to travel! The *only* way to travel!"`],
+    "cut",
+    [`"What are we to do with him?" asked the Mole of the Water Rat.`],
+    [`"Nothing at all," replied the Rat firmly.`,
+     `"Because there is really nothing to be done.`,
+     `You see, I know him from of old.`,
+     `He is now possessed.`,
+     `He has got a new craze, and it always takes him that way, in its first stage.`,
+     `He'll continue like that for days now, like an animal walking in a happy dream, quite useless for all practical purposes.`,
+     `Never mind him. Let's go and see what there is to be done about the cart."`],
+  ],
+  questions: [
+    {
+      type: `Feelings`,
+      q: `How does Toad feel about the motor-car that wrecked his caravan?`,
+      options: [
+        { text: `Thrilled and fascinated by it`, correct: true, why: `He wears a "happy smile", looks "satisfied", and calls it a "Glorious, stirring sight!"` },
+        { text: `Upset about his ruined caravan`, why: `That's how most people would feel, but Toad doesn't even look at the caravan.` },
+        { text: `Furious with the driver`, why: `Nothing he says or does shows anger.` },
+        { text: `Frightened it might come back`, why: `He keeps staring after it happily, which is the opposite of fear.` },
+      ],
+      evidence: [`placid, satisfied expression`, `happy smile`, `Glorious, stirring sight`],
+    },
+    {
+      type: `Inference`,
+      q: `Why does Toad keep murmuring "Poop-poop!"?`,
+      options: [
+        { text: `He is copying the motor-car's horn because he can't stop thinking about it.`, correct: true, why: `"Poop-poop" was the car's hooting, and his eyes stay fixed on where it went.` },
+        { text: `He is hurt and groaning.`, why: `He has "a happy smile on his face", so he isn't in pain.` },
+        { text: `He is trying to calm the horse.`, why: `The Mole is the one calming the horse.` },
+        { text: `He is making fun of the Rat and the Mole.`, why: `He isn't paying any attention to them at all.` },
+      ],
+      evidence: [`stared fixedly in the direction of the disappearing motor-car`, `eyes still fixed on the dusty wake`],
+    },
+    {
+      type: `Word meaning`,
+      q: `In "the dusty wake of their destroyer", who or what is "their destroyer"?`,
+      options: [
+        { text: `The motor-car`, correct: true, why: `The motor-car caused the crash, and Toad is staring after it as it disappears.` },
+        { text: `The horse`, why: `The horse did pull the caravan into the ditch, but only because the car frightened it. The "dusty wake" is the trail the car left behind.` },
+        { text: `Toad`, why: `Toad is the one doing the staring, so he can't be what he is staring at.` },
+        { text: `The Rat`, why: `The Rat is trying to help, not destroy anything.` },
+      ],
+      evidence: [`dusty wake of their destroyer`, `disappearing motor-car`],
+    },
+    {
+      type: `Inference`,
+      q: `The Rat says, "I know him from of old." What does this suggest?`,
+      options: [
+        { text: `Toad has behaved like this before with other crazes.`, correct: true, why: `The Rat explains that a new craze "always takes him that way", so he has seen it happen many times.` },
+        { text: `Toad is very old.`, why: `"From of old" describes how long the Rat has known Toad, not Toad's age.` },
+        { text: `The Rat and Toad are cousins.`, why: `Nothing in the text says they are related.` },
+        { text: `The Rat doesn't like Toad.`, why: `He is frustrated, but he talks about Toad patiently and doesn't say he dislikes him.` },
+      ],
+      evidence: [`it always takes him that way`, `I know him from of old`],
+    },
+    {
+      type: `Prediction`,
+      q: `What is Toad most likely to do next?`,
+      options: [
+        { text: `Try to get a motor-car of his own.`, correct: true, why: `He calls it "the *only* way to travel", and the Rat says he has a new craze. In the book, he orders an expensive motor-car the very next day.` },
+        { text: `Mend the caravan and carry on the trip.`, why: `He has lost all interest in the caravan and won't even help lift it.` },
+        { text: `Report the motor-car to the police.`, why: `He admires the car far too much to complain about it.` },
+        { text: `Give up travelling and stay at home.`, why: `He is more excited about travelling than ever, just in a different way.` },
+      ],
+      evidence: [`The *only* way to travel`, `new craze`],
+    },
+  ],
+},
+
+{
+  week: 2,
+  title: `The Castle Wall`,
+  source: `An original story written for this game`,
+  intro: `Sam and his younger sister Maya are exploring a ruined castle above a beach while their mum waits in a café nearby.`,
+  text: [
+    [`The castle had been a ruin for six hundred years, and on a grey afternoon in February it looked every one of them.`,
+     `The beach below was desolate: no dog walkers, no kite flyers, just gulls and wet black rocks.`],
+    [`"I'm going up," said Sam, already halfway over the rope with the sign that said DANGER: CRUMBLING WALLS.`],
+    [`Maya stayed where she was.`,
+     `She read the sign twice.`,
+     `Then she looked at the long drop to the rocks and pushed her hands deep into her pockets.`],
+    [`Sam climbed like a cat, finding footholds Maya could not even see.`,
+     `At the top he spread his arms and bellowed into the wind.`,
+     `"King of the castle!"`],
+    [`"Mum said one hour," Maya called.`,
+     `"It's been fifty minutes."`],
+    [`"Then come up for ten!"`],
+    [`She didn't answer.`,
+     `She was watching a stone near Sam's foot.`,
+     `It had shifted, just slightly, when he jumped.`],
+    [`"Sam," she said, in a voice so quiet it was almost a murmur.`,
+     `"Come down. Slowly."`],
+    [`Something in the way she said it made him stop grinning.`],
+    [`He came down slowly, testing every step.`,
+     `At the bottom, neither of them spoke.`,
+     `Then Sam held out a hand, and Maya took it, and they walked back along the sand together.`],
+  ],
+  questions: [
+    {
+      type: `Feelings`,
+      q: `How does Maya feel about climbing the wall?`,
+      options: [
+        { text: `She thinks it is too dangerous and doesn't want to.`, correct: true, why: `She reads the warning sign twice, looks at the long drop, and pushes her hands into her pockets instead of climbing.` },
+        { text: `She is excited and waiting for her turn.`, why: `Nothing shows excitement, and when Sam invites her up, she doesn't answer.` },
+        { text: `She is jealous of how well Sam climbs.`, why: `The text says she can't see his footholds, not that she wishes she could climb like him.` },
+        { text: `She is too cold to climb.`, why: `Hands in pockets might suggest cold, but she has just read the danger sign and looked at the drop, which points to fear.` },
+      ],
+      evidence: [`read the sign twice`, `looked at the long drop`],
+    },
+    {
+      type: `Word meaning`,
+      q: `"Sam climbed like a cat." What does this tell us about him?`,
+      options: [
+        { text: `He is agile and confident.`, correct: true, why: `Cats climb quickly and easily, and he finds footholds Maya cannot even see.` },
+        { text: `He is clumsy.`, why: `The opposite: cats are known for being nimble.` },
+        { text: `He is scared of heights.`, why: `He shouts "King of the castle!" at the top, so he isn't scared.` },
+        { text: `He is climbing up to rescue a cat.`, why: `"Like a cat" is a comparison (a simile). There is no real cat.` },
+      ],
+      evidence: [`climbed like a cat`, `footholds Maya could not even see`],
+    },
+    {
+      type: `Motive`,
+      q: `Why does Maya speak quietly instead of shouting?`,
+      options: [
+        { text: `She's worried a sudden shout might startle Sam and make him fall.`, correct: true, why: `She has seen a stone shift under his foot, and she tells him to come down "Slowly".` },
+        { text: `She is angry with him.`, why: `Angry people usually shout. Her quiet, careful words show worry.` },
+        { text: `She doesn't want Mum to hear.`, why: `Mum is in a café, and nothing suggests Maya is keeping a secret.` },
+        { text: `The wind has made her lose her voice.`, why: `She called to Sam easily a moment earlier, so her voice is fine.` },
+      ],
+      evidence: [`It had shifted`, `Come down. Slowly.`],
+    },
+    {
+      type: `Inference`,
+      q: `"Something in the way she said it made him stop grinning." What does this suggest?`,
+      options: [
+        { text: `Sam realised she was serious and that he might be in danger.`, correct: true, why: `He stops joking at once and climbs down slowly, "testing every step".` },
+        { text: `Sam was annoyed she had spoiled his fun.`, why: `Tempting, but if he were just annoyed, he wouldn't test every step so carefully.` },
+        { text: `Sam hadn't heard what she said.`, why: `He does exactly what she asks, so he must have heard.` },
+        { text: `Sam was getting bored of the castle.`, why: `Nothing suggests boredom. Moments earlier he was shouting happily.` },
+      ],
+      evidence: [`testing every step`, `stop grinning`],
+    },
+    {
+      type: `Motive`,
+      q: `Why might Sam hold out his hand at the end?`,
+      options: [
+        { text: `To show he is sorry and grateful, without needing to say so.`, correct: true, why: `Neither of them speaks, so the gesture says what words don't.` },
+        { text: `He wants her to help him climb up again.`, why: `They are walking away from the castle, not back to it.` },
+        { text: `He has hurt his hand.`, why: `Nothing suggests he was injured.` },
+        { text: `He wants to race her back to Mum.`, why: `They walk back "together", not in a race.` },
+      ],
+      evidence: [`neither of them spoke`, `held out a hand`],
+    },
+    {
+      type: `Character`,
+      q: `Which pair of words best describes Sam and Maya in this story?`,
+      options: [
+        { text: `Sam is reckless; Maya is cautious.`, correct: true, why: `Sam climbs straight past a danger sign, while Maya reads it twice and spots the loose stone.` },
+        { text: `Sam is cautious; Maya is reckless.`, why: `The opposite way round.` },
+        { text: `Sam is clumsy; Maya is agile.`, why: `Sam climbs "like a cat", so he isn't clumsy, and Maya never climbs at all.` },
+        { text: `They are both mischievous.`, why: `Sam might be, but nothing suggests Maya is up to mischief.` },
+      ],
+      evidence: [`already halfway over the rope`, `read the sign twice`],
+    },
+  ],
+},
+
+{
+  week: 2,
+  title: `The Mole Smells Home`,
+  source: `From The Wind in the Willows by Kenneth Grahame (1908)`,
+  intro: `It is a dark winter evening. The Mole and the Rat are walking back to the Rat's house. Months ago, on the day he met the Rat, the Mole left his own little home and has hardly thought about it since. Suddenly, he catches a faint, familiar smell.`,
+  text: [
+    [`Home!`,
+     `That was what they meant, those caressing appeals, those soft touches wafted through the air, those invisible little hands pulling and tugging, all one way!`,
+     `Why, it must be quite close by him at that moment, his old home that he had hurriedly forsaken and never sought again, that day when he first found the River!`],
+    "cut",
+    [`The call was clear, the summons was plain.`,
+     `He must obey it instantly, and go.`,
+     `"Ratty!" he called, full of joyful excitement, "hold on! Come back! I want you, quick!"`],
+    [`"Oh, *come* along, Mole, do!" replied the Rat cheerfully, still plodding along.`],
+    [`"*Please* stop, Ratty!" pleaded the poor Mole, in anguish of heart.`,
+     `"You don't understand! It's my home, my old home! I've just come across the smell of it, and it's close by here, really quite close.`,
+     `And I *must* go to it, I must, I must! Oh, come back, Ratty! Please, please come back!"`],
+    [`The Rat was by this time very far ahead, too far to hear clearly what the Mole was calling, too far to catch the sharp note of painful appeal in his voice.`,
+     `And he was much taken up with the weather, for he too, could smell something—something suspiciously like approaching snow.`],
+    [`"Mole, we mustn't stop now, really!" he called back.`,
+     `"We'll come for it to-morrow, whatever it is you've found.`,
+     `But I daren't stop now—it's late, and the snow's coming on again, and I'm not sure of the way!`,
+     `And I want your nose, Mole, so come on quick, there's a good fellow!"`,
+     `And the Rat pressed forward on his way without waiting for an answer.`],
+    [`Poor Mole stood alone in the road, his heart torn asunder, and a big sob gathering, gathering, somewhere low down inside him, to leap up to the surface presently, he knew, in passionate escape.`,
+     `But even under such a test as this his loyalty to his friend stood firm.`,
+     `Never for a moment did he dream of abandoning him.`],
+    "cut",
+    [`With a wrench that tore his very heart-strings he set his face down the road and followed submissively in the track of the Rat, while faint, thin little smells, still dogging his retreating nose, reproached him for his new friendship and his callous forgetfulness.`],
+  ],
+  questions: [
+    {
+      type: `Motive`,
+      q: `Why doesn't the Rat stop when the Mole calls to him?`,
+      options: [
+        { text: `He is too far ahead to understand, and he is worried about the snow.`, correct: true, why: `He can't hear the Mole clearly or catch the pain in his voice, and he can smell snow coming.` },
+        { text: `He doesn't care about the Mole's feelings.`, why: `Tempting, but the text explains he simply doesn't hear "the sharp note of painful appeal". He even promises to come back tomorrow.` },
+        { text: `He is angry with the Mole.`, why: `He calls back cheerfully and calls the Mole "a good fellow".` },
+        { text: `He wants to find the Mole's home first.`, why: `He doesn't know what the Mole has found: "whatever it is you've found".` },
+      ],
+      evidence: [`too far to hear clearly`, `approaching snow`],
+    },
+    {
+      type: `Inference`,
+      q: `Why does the Rat say, "I want your nose, Mole"?`,
+      options: [
+        { text: `He is unsure of the way and needs the Mole's sense of smell to find it.`, correct: true, why: `He says, "I'm not sure of the way!" It's also sad and a little ironic: the Mole's nose is exactly what is pulling him the other way.` },
+        { text: `He wants the Mole to smell the snow too.`, why: `The Rat can already smell the snow himself.` },
+        { text: `He is teasing the Mole about his nose.`, why: `Nothing suggests teasing. He is in a hurry and worried.` },
+        { text: `The Mole's nose is cold and needs warming up.`, why: `Nothing in the text mentions this.` },
+      ],
+      evidence: [`not sure of the way`, `I want your nose`],
+    },
+    {
+      type: `Word meaning`,
+      q: `The Mole stands in the road with "his heart torn asunder". What does this mean?`,
+      options: [
+        { text: `He is deeply upset because he wants two opposite things at once.`, correct: true, why: `He longs to go home, but he also wants to stay with his friend. "Asunder" means apart or into pieces.` },
+        { text: `He has been physically hurt.`, why: `This is figurative language, a way of describing his feelings, not an injury.` },
+        { text: `He has stopped caring about his old home.`, why: `The opposite: he is about to sob because he cares so much.` },
+        { text: `He is furious with the Rat.`, why: `His loyalty to the Rat "stood firm", so he isn't angry with him.` },
+      ],
+      evidence: [`heart torn asunder`, `loyalty to his friend stood firm`],
+    },
+    {
+      type: `Character`,
+      q: `What does the Mole's decision to follow the Rat show about him?`,
+      options: [
+        { text: `He is loyal and puts his friend before what he wants.`, correct: true, why: `He gives up the chance to visit his home rather than abandon the Rat.` },
+        { text: `He is afraid to walk on his own in the dark.`, why: `That would be understandable, but the text says his reason is loyalty.` },
+        { text: `He doesn't really want to go home.`, why: `The opposite: following the Rat tears "his very heart-strings".` },
+        { text: `He has already forgotten about his home.`, why: `The smells are still "dogging his retreating nose", and he is about to cry.` },
+      ],
+      evidence: [`loyalty to his friend stood firm`, `Never for a moment did he dream of abandoning him`],
+    },
+    {
+      type: `Author's choice`,
+      q: `The smells "reproached him for his new friendship and his callous forgetfulness". What is the writer suggesting?`,
+      options: [
+        { text: `The Mole feels guilty for leaving and forgetting his old home.`, correct: true, why: `The writer makes the smells sound like a person telling him off. That describes the guilt the Mole feels for having "hurriedly forsaken" his home and "never sought" it again.` },
+        { text: `The smells are really speaking out loud.`, why: `This is personification: the writer gives the smells human qualities. They don't actually speak.` },
+        { text: `The Rat blames the Mole for forgetting his home.`, why: `It is the smells, not the Rat, that "reproach" the Mole. The Rat doesn't know about the home yet.` },
+        { text: `The Mole's home has been damaged while he was away.`, why: `Nothing in the extract says anything about damage.` },
+      ],
+      evidence: [`callous forgetfulness`, `hurriedly forsaken`],
+    },
+  ],
+},
+
+];
+
+
+// ================= GAME =================
+const $ = id => document.getElementById(id);
+PASSAGES.forEach((p, i) => {
+  p.id = `w${p.week}-${i}`;
+  p.sentences = p.text.filter(x => x !== "cut").flat();
+  p.questions.forEach(q => {
+    q.ev = p.sentences.map((s, i) => q.evidence.some(e => s.includes(e)) ? i : -1).filter(i => i >= 0);
+    q.evidence.forEach(e => { if (!p.sentences.some(s => s.includes(e))) console.warn(`Evidence phrase not found in "${p.title}":`, e); });
+  });
+});
+const WEEKS = [...new Set(PASSAGES.map(p => p.week))].sort((a, b) => a - b);
+
+// ---------- saved progress (this device only) ----------
+let S = {week: WEEKS[0], evidence: true, best: {}};
+try { const s = JSON.parse(localStorage.getItem("readingGame") || "null"); if (s) S = {...S, ...s}; } catch (e) {}
+if (!WEEKS.includes(S.week)) S.week = WEEKS[0];
+const save = () => { try { localStorage.setItem("readingGame", JSON.stringify(S)); } catch (e) {} };
+
+// ---------- text helpers ----------
+function smart(s){
+  return s.replace(/(^|[\s(\[—–-])"/g, "$1\u201C").replace(/"/g, "\u201D")
+          .replace(/(^|[\s(\[—–-])'(?!em\b)/g, "$1\u2018").replace(/'/g, "\u2019");
+}
+function rich(el, s){ // *word* -> italics
+  smart(s).split("*").forEach((part, i) => {
+    if (!part) return;
+    if (i % 2) { const em = document.createElement("em"); em.textContent = part; el.appendChild(em); }
+    else el.appendChild(document.createTextNode(part));
+  });
+  return el;
+}
+const make = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) rich(e, text); return e; };
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+// ---------- screens ----------
+function show(name){
+  ["home", "read", "done"].forEach(n => $(n).hidden = n !== name);
+  $("app").classList.toggle("fixed", name === "read");
+  $("backBtn").hidden = name === "home";
+  if (name === "home") $("title").textContent = "11+ Reading";
+  window.scrollTo(0, 0);
+}
+
+function renderHome(){
+  const seg = $("weekSeg"); seg.innerHTML = "";
+  WEEKS.forEach(w => {
+    const b = make("button", "", `Week ${w}`); b.type = "button";
+    b.setAttribute("aria-pressed", String(S.week === w));
+    b.onclick = () => { S.week = w; save(); renderHome(); };
+    seg.appendChild(b);
+  });
+  $("evSwitch").setAttribute("aria-checked", String(S.evidence));
+  const cards = $("cards"); cards.innerHTML = "";
+  PASSAGES.filter(p => p.week === S.week).forEach(p => {
+    const b = make("button", "pcard"); b.type = "button";
+    b.append(make("span", "t", p.title), make("span", "s", p.source));
+    const best = S.best[p.id];
+    b.append(make("span", "b" + (best ? " done" : ""), best ? `Best: ${best.score} / ${best.max}` : "Not tried yet"));
+    b.onclick = () => openPassage(p);
+    cards.appendChild(b);
+  });
+  $("hint").textContent = S.evidence
+    ? "For each question, pick an answer, then tap the sentence in the text that proves it. You score a point for each."
+    : "Pick an answer for each question. Turn on \u201CFind the evidence\u201D to practise proving your answers from the text.";
+  show("home");
+}
+$("evSwitch").onclick = () => { S.evidence = !S.evidence; save(); renderHome(); };
+$("backBtn").onclick = () => renderHome();
+
+// ---------- a passage ----------
+let P = null, qi = 0, order = [], chosen = null, picked = null, results = [], stage = "";
+
+function openPassage(p){
+  P = p; qi = 0; results = [];
+  $("title").textContent = p.title;
+  $("intro").textContent = smart(p.intro);
+  $("src").textContent = p.source;
+  const t = $("text"); t.innerHTML = "";
+  let n = 0;
+  p.text.forEach(par => {
+    if (par === "cut") { t.appendChild(make("p", "cut", "[\u2026]")); return; }
+    const el = document.createElement("p");
+    par.forEach((s, j) => {
+      const span = make("span", "s", s); span.dataset.i = n++;
+      span.onclick = () => pickSentence(+span.dataset.i);
+      el.appendChild(span);
+      if (j < par.length - 1) el.appendChild(document.createTextNode(" "));
+    });
+    t.appendChild(el);
+  });
+  show("read");
+  $("pane").scrollTop = 0;
+  stage = "intro";
+  $("panel").hidden = true; $("panel").innerHTML = "";
+  $("startRow").hidden = false;
+  $("startBtn").textContent = `I've read it: start the questions (${p.questions.length})`;
+}
+$("startBtn").onclick = () => { $("startRow").hidden = true; $("panel").hidden = false; ask(); };
+
+function clearMarks(){
+  document.querySelectorAll("#text .s").forEach(s => s.classList.remove("picked", "ev", "wrongpick"));
+  $("text").classList.remove("picking");
+}
+
+function header(q){
+  const m = make("div", "meta");
+  m.append(make("span", "", `Question ${qi + 1} of ${P.questions.length}`), make("span", "pill", q.type));
+  return m;
+}
+
+function ask(){
+  clearMarks();
+  stage = "answer"; chosen = null; picked = null;
+  const q = P.questions[qi];
+  order = shuffle(q.options);
+  const panel = $("panel"); panel.innerHTML = "";
+  panel.append(header(q), make("p", "q", q.q));
+  const opts = make("div", "opts");
+  order.forEach((o, i) => {
+    const b = make("button", "opt"); b.type = "button";
+    b.append(make("span", "k", "ABCD"[i]), make("span", "", o.text));
+    b.onclick = () => choose(i);
+    opts.appendChild(b);
+  });
+  panel.appendChild(opts);
+  panel.scrollTop = 0;
+}
+
+function choose(i){
+  if (stage !== "answer") return;
+  chosen = order[i];
+  if (S.evidence) askEvidence(); else reveal();
+}
+
+function askEvidence(){
+  stage = "evidence";
+  const q = P.questions[qi];
+  const panel = $("panel"); panel.innerHTML = "";
+  panel.append(header(q));
+  const mine = make("p", "mine"); mine.append(document.createTextNode("Your answer: ")); mine.appendChild(rich(document.createElement("b"), chosen.text));
+  panel.append(mine, make("p", "instr", "Now tap the sentence in the text that best proves your answer."));
+  const row = make("div", "btnrow");
+  const back = make("button", "secondary", "Change answer"); back.type = "button"; back.onclick = () => ask();
+  const check = make("button", "primary", "Check"); check.type = "button"; check.id = "checkBtn"; check.disabled = true;
+  check.onclick = () => reveal();
+  row.append(back, check); panel.appendChild(row);
+  $("text").classList.add("picking");
+}
+
+function pickSentence(i){
+  if (stage !== "evidence") return;
+  picked = i;
+  document.querySelectorAll("#text .s").forEach(s => s.classList.toggle("picked", +s.dataset.i === i));
+  $("checkBtn").disabled = false;
+}
+
+function reveal(){
+  stage = "reveal";
+  const q = P.questions[qi];
+  const right = chosen.correct === true;
+  const evRight = S.evidence ? q.ev.includes(picked) : null;
+  results.push({answer: right, evidence: evRight});
+
+  $("text").classList.remove("picking");
+  document.querySelectorAll("#text .s").forEach(s => {
+    const i = +s.dataset.i;
+    s.classList.remove("picked");
+    if (q.ev.includes(i)) s.classList.add("ev");
+    if (S.evidence && i === picked && !q.ev.includes(i)) s.classList.add("wrongpick");
+  });
+  const first = document.querySelector("#text .s.ev");
+  if (first) first.scrollIntoView({block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
+
+  const panel = $("panel"); panel.innerHTML = "";
+  panel.append(header(q));
+  const v = make("div", "verdicts");
+  v.append(make("span", "vp " + (right ? "y" : "n"), right ? "Answer: correct" : "Answer: not quite"));
+  if (S.evidence) v.append(make("span", "vp " + (evRight ? "y" : "n"), evRight ? "Evidence: spot on" : "Evidence: not quite"));
+  panel.appendChild(v);
+  const correct = q.options.find(o => o.correct);
+  if (!right){
+    const w1 = make("p", "why"); w1.append(make("span", "lbl", `You chose: ${chosen.text}`)); rich(w1, chosen.why); panel.appendChild(w1);
+  }
+  const w2 = make("p", "why"); w2.append(make("span", "lbl strong", `${right ? "" : "The answer: "}${correct.text}`)); rich(w2, correct.why); panel.appendChild(w2);
+  panel.append(make("p", "evnote", S.evidence && !evRight
+    ? "The best evidence is highlighted in yellow in the text. The sentence you picked is outlined in red."
+    : "The evidence is highlighted in yellow in the text."));
+  const row = make("div", "btnrow");
+  const last = qi + 1 >= P.questions.length;
+  const next = make("button", "primary", last ? "See my score" : "Next question"); next.type = "button";
+  next.onclick = () => { if (last) finish(); else { qi++; ask(); } };
+  row.appendChild(next); panel.appendChild(row);
+  panel.scrollTop = 0;
+  next.focus({preventScroll: true});
+}
+
+function finish(){
+  const max = results.length * (S.evidence ? 2 : 1);
+  const score = results.reduce((t, r) => t + (r.answer ? 1 : 0) + (r.evidence ? 1 : 0), 0);
+  const prev = S.best[P.id];
+  if (!prev || score / max > prev.score / prev.max || (score / max === prev.score / prev.max && max > prev.max)) { S.best[P.id] = {score, max}; save(); }
+  const answers = results.filter(r => r.answer).length;
+  const evidence = results.filter(r => r.evidence).length;
+
+  const d = $("done"); d.innerHTML = "";
+  const box = make("div", "res");
+  box.append(make("p", "sub", P.title), make("p", "big", `${score} / ${max}`));
+  box.append(make("p", "sub", S.evidence
+    ? `${answers} of ${results.length} answers right, and ${evidence} of ${results.length} pieces of evidence found.`
+    : `${answers} of ${results.length} answers right.`));
+  const ul = make("ul", "qlist");
+  P.questions.forEach((q, i) => {
+    const li = document.createElement("li");
+    const mk = make("span", "marks");
+    mk.append(make("span", "mk " + (results[i].answer ? "y" : "n"), results[i].answer ? "Answer ✓" : "Answer ✗"));
+    if (S.evidence) mk.append(make("span", "mk " + (results[i].evidence ? "y" : "n"), results[i].evidence ? "Evidence ✓" : "Evidence ✗"));
+    li.append(make("span", "", q.q), mk);
+    ul.appendChild(li);
+  });
+  box.appendChild(ul);
+  const row = make("div", "btnrow");
+  const again = make("button", "secondary", "Try this one again"); again.type = "button"; again.onclick = () => openPassage(P);
+  const list = PASSAGES.filter(p => p.week === P.week);
+  const nextP = list[list.indexOf(P) + 1];
+  const next = make("button", "primary", nextP ? `Next: ${nextP.title}` : `Back to Week ${P.week}`); next.type = "button";
+  next.onclick = () => nextP ? openPassage(nextP) : renderHome();
+  row.append(again, next); box.appendChild(row);
+  d.appendChild(box);
+  show("done");
+  $("title").textContent = "Your score";
+}
+
+// ---------- keyboard ----------
+document.addEventListener("keydown", e => {
+  if ($("read").hidden) return;
+  const k = e.key.toUpperCase();
+  if (stage === "answer" && "ABCD1234".includes(k) && k.length === 1){ choose("ABCD1234".indexOf(k) % 4); e.preventDefault(); }
+});
+
+// ---------- full screen (shown only where supported, e.g. Chrome on Android) ----------
+const fs = $("fsBtn");
+const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+if (document.fullscreenEnabled || document.webkitFullscreenEnabled) fs.hidden = false;
+fs.onclick = () => {
+  try {
+    if (fsEl()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    else { const el = document.documentElement; const r = (el.requestFullscreen || el.webkitRequestFullscreen).call(el); if (r && r.catch) r.catch(() => {}); }
+  } catch (e) {}
+};
+function fsSync(){ const on = !!fsEl(); fs.classList.toggle("on", on); fs.setAttribute("aria-label", on ? "Exit full screen" : "Full screen"); fs.title = on ? "Exit full screen" : "Full screen"; }
+document.addEventListener("fullscreenchange", fsSync);
+document.addEventListener("webkitfullscreenchange", fsSync);
+
+renderHome();
+</script>
+</body>
+</html>
