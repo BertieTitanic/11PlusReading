@@ -46,6 +46,11 @@ button{font:inherit;color:inherit;touch-action:manipulation;-webkit-tap-highligh
 .fsbtn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .fsbtn .out{display:none} .fsbtn.on .in{display:none} .fsbtn.on .out{display:block}
 .back:hover,.fsbtn:hover{border-color:var(--accent)}
+.timer{flex:none;display:flex;align-items:center;gap:.35rem;min-height:44px;padding:0 .7rem;border:1.5px solid var(--rule);border-radius:12px;background:var(--card);color:var(--muted);font-size:.95rem;font-variant-numeric:tabular-nums}
+.timer[hidden]{display:none}
+.timer svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.res .time{font-size:1rem;margin:.2rem 0 .1rem}
+.res .time b{font-weight:600}
 
 /* ---------- home ---------- */
 #home{padding:0 .9rem 2rem;max-width:720px;width:100%;margin:0 auto}
@@ -161,6 +166,7 @@ details.review *{box-sizing:border-box}
   <header class="top">
     <button class="back" id="backBtn" type="button" hidden>‹ Back</button>
     <h1 id="title">11+ Reading</h1>
+    <span class="timer" id="timer" role="timer" aria-label="Time spent" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M10 2h4"/></svg><span id="timerTxt">0:00</span></span>
     <button class="fsbtn" id="fsBtn" type="button" aria-label="Full screen" title="Full screen" hidden>
       <svg class="in" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
       <svg class="out" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>
@@ -3918,6 +3924,7 @@ function show(name){
   $("app").classList.toggle("fixed", name === "read");
   $("backBtn").hidden = name === "home";
   if (name === "home") $("title").textContent = "11+ Reading";
+  if (name !== "read") timerStop();
   window.scrollTo(0, 0);
 }
 
@@ -3950,6 +3957,22 @@ function renderHome(){
 $("evSwitch").onclick = () => { S.evidence = !S.evidence; save(); renderHome(); };
 $("backBtn").onclick = () => renderHome();
 
+// ---------- timer (counts only while the page is on screen) ----------
+const T = {acc: 0, since: null, readMs: null, iv: null};
+const now = () => performance.now();
+const elapsed = () => T.acc + (T.since != null ? now() - T.since : 0);
+const clock = ms => { const t = Math.floor(ms / 1000); return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`; };
+const words = ms => { const t = Math.round(ms / 1000), m = Math.floor(t / 60), sec = t % 60;
+  return (m ? `${m} min ` : "") + `${sec} sec`; };
+function timerDraw(){ $("timerTxt").textContent = clock(elapsed()); }
+function timerStart(){ T.acc = 0; T.readMs = null; T.since = document.hidden ? null : now(); clearInterval(T.iv); T.iv = setInterval(timerDraw, 500); timerDraw(); $("timer").hidden = false; }
+function timerStop(){ if (T.since != null) { T.acc += now() - T.since; T.since = null; } clearInterval(T.iv); T.iv = null; $("timer").hidden = true; }
+document.addEventListener("visibilitychange", () => {
+  if (T.iv == null) return;
+  if (document.hidden) { if (T.since != null) { T.acc += now() - T.since; T.since = null; } }
+  else if (T.since == null) T.since = now();
+});
+
 // ---------- a passage ----------
 let P = null, qi = 0, order = [], chosen = null, picked = null, results = [], stage = "";
 
@@ -3977,8 +4000,9 @@ function openPassage(p){
   $("panel").hidden = true; $("panel").innerHTML = "";
   $("startRow").hidden = false;
   $("startBtn").textContent = `I've read it: start the questions (${p.questions.length})`;
+  timerStart();
 }
-$("startBtn").onclick = () => { $("startRow").hidden = true; $("panel").hidden = false; ask(); };
+$("startBtn").onclick = () => { T.readMs = elapsed(); $("startRow").hidden = true; $("panel").hidden = false; ask(); };
 
 function clearMarks(){
   document.querySelectorAll("#text .s").forEach(s => s.classList.remove("picked", "ev", "wrongpick"));
@@ -4098,6 +4122,7 @@ function reveal(){
 }
 
 function finish(){
+  const total = elapsed();
   const max = results.length * (S.evidence ? 2 : 1);
   const score = results.reduce((t, r) => t + (r.answer ? 1 : 0) + (r.evidence ? 1 : 0), 0);
   const prev = S.best[P.id];
@@ -4111,6 +4136,11 @@ function finish(){
   box.append(make("p", "sub", S.evidence
     ? `${answers} of ${results.length} answers right, and ${evidence} of ${results.length} pieces of evidence found.`
     : `${answers} of ${results.length} answers right.`));
+  const tm = make("p", "time");
+  const totS = Math.round(total / 1000), readS = Math.min(totS, Math.round((T.readMs || 0) / 1000));
+  tm.append(document.createTextNode("Time taken: "), make("b", "", words(totS * 1000)));
+  if (T.readMs != null) tm.append(document.createTextNode(` (reading ${words(readS * 1000)}, questions ${words((totS - readS) * 1000)})`));
+  box.appendChild(tm);
   const ul = make("ul", "qlist");
   P.questions.forEach((q, i) => {
     const li = document.createElement("li");
